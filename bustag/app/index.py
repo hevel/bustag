@@ -6,6 +6,8 @@ import os
 import bottle
 from multiprocessing import freeze_support
 from bottle import route, run, template, static_file, request, response, redirect, hook
+import aria2p
+from bustag.util import APP_CONFIG
 
 dirname = os.path.dirname(os.path.realpath(__file__))
 if getattr(sys, 'frozen', False):
@@ -91,11 +93,26 @@ def tag(fanhao):
     redirect(url)
 
 
+def aria2_down(magnet_uri):
+    aria2 = aria2p.API(
+        aria2p.Client(
+            host=APP_CONFIG["aria2.host"],
+            port=APP_CONFIG["aria2.port"],
+            secret=APP_CONFIG["aria2.secret"]
+        )
+    )
+    download = aria2.add_magnet(magnet_uri)
+
+def get_magnet(fanhao):
+    pass
+
 @route('/correct/<fanhao>', method='POST')
 def correct(fanhao):
     if request.POST.submit:
         formid = request.POST.formid
         is_correct = int(request.POST.submit)
+        if is_correct == 2:
+            
         item_rate = ItemRate.get_by_fanhao(fanhao)
         if item_rate:
             item_rate.rate_type = RATE_TYPE.USER_RATE

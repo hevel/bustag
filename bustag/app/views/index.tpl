@@ -47,6 +47,7 @@
 		<input type=hidden name="formid" value="form-{{i}}">
 		<button type="submit" name="submit" class="btn btn-primary mx-2" value="1">正确</button>
 		<button type="submit" name="submit" class="btn btn-danger" value="0">错误</button>
+		<button type="submit" name="submit" class="btn btn-primary mx-2" value="2">下载</button>
 		</div>
 	</div>
 	</form>
